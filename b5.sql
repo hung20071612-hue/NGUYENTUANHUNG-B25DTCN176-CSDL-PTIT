@@ -1,0 +1,28 @@
+CREATE DATABASE IF NOT EXISTS car_rental;
+USE car_rental;
+ 
+CREATE TABLE Customer (
+    MaKhachHang INT PRIMARY KEY AUTO_INCREMENT,
+    Ten VARCHAR(100) NOT NULL,
+    DiaChi VARCHAR(255),
+    SoDienThoai VARCHAR(20)
+);
+ 
+CREATE TABLE Car (
+    MaXe INT PRIMARY KEY AUTO_INCREMENT,
+    TenXe VARCHAR(100) NOT NULL,
+    LoaiXe VARCHAR(50),
+    GiaThueMotNgay DECIMAL(10, 2) NOT NULL
+);
+ 
+CREATE TABLE Rental (
+    MaThue INT PRIMARY KEY AUTO_INCREMENT,
+    MaKhachHang INT NOT NULL,
+    MaXe INT NOT NULL,
+    NgayBatDau DATE NOT NULL,
+    NgayKetThuc DATE NOT NULL,
+    TongSoTien DECIMAL(10, 2) DEFAULT 0,
+    CONSTRAINT fk_customer FOREIGN KEY (MaKhachHang) REFERENCES Customer(MaKhachHang),
+    CONSTRAINT fk_car FOREIGN KEY (MaXe) REFERENCES Car(MaXe),
+    CONSTRAINT chk_dates CHECK (NgayKetThuc > NgayBatDau)
+);

@@ -1,0 +1,40 @@
+CREATE DATABASE QuanLyKhachSan;
+USE QuanLyKhachSan;
+
+CREATE TABLE Guest (
+    MaKhach INT PRIMARY KEY AUTO_INCREMENT,
+    Ten VARCHAR(100) NOT NULL,
+    DiaChi VARCHAR(255),
+    Email VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE Room (
+    MaPhong INT PRIMARY KEY AUTO_INCREMENT,
+    LoaiPhong VARCHAR(50) NOT NULL,
+    GiaMoiDem DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE Reservation (
+    MaDatPhong INT PRIMARY KEY AUTO_INCREMENT,
+    MaKhach INT NOT NULL,
+    MaPhong INT NOT NULL,
+    NgayBatDau DATE NOT NULL,
+    NgayKetThuc DATE NOT NULL,
+    FOREIGN KEY (MaKhach) REFERENCES Guest(MaKhach),
+    FOREIGN KEY (MaPhong) REFERENCES Room(MaPhong)
+);
+
+CREATE TABLE Service (
+    MaDichVu INT PRIMARY KEY AUTO_INCREMENT,
+    TenDichVu VARCHAR(100) NOT NULL,
+    GiaDichVu DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE ServiceUsage (
+    MaSuDung INT PRIMARY KEY AUTO_INCREMENT,
+    MaDatPhong INT NOT NULL,
+    MaDichVu INT NOT NULL,
+    NgaySuDung DATE NOT NULL,
+    FOREIGN KEY (MaDatPhong) REFERENCES Reservation(MaDatPhong),
+    FOREIGN KEY (MaDichVu) REFERENCES Service(MaDichVu)
+);

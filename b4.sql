@@ -1,0 +1,32 @@
+CREATE DATABASE IF NOT EXISTS store_db;
+USE store_db;
+
+CREATE TABLE Customer (
+    MaKhachHang INT AUTO_INCREMENT PRIMARY KEY,
+    Ten VARCHAR(100) NOT NULL,
+    DiaChi VARCHAR(255),
+    Email VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE Product (
+    MaSanPham INT AUTO_INCREMENT PRIMARY KEY,
+    TenSanPham VARCHAR(150) NOT NULL,
+    Gia DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE `Order` (
+    MaDonHang INT AUTO_INCREMENT PRIMARY KEY,
+    NgayDatHang DATE NOT NULL,
+    TongSoTien DECIMAL(10, 2) NOT NULL,
+    MaKhachHang INT NOT NULL,
+    FOREIGN KEY (MaKhachHang) REFERENCES Customer(MaKhachHang)
+);
+
+CREATE TABLE OrderDetail (
+    MaDonHang INT NOT NULL,
+    MaSanPham INT NOT NULL,
+    SoLuong INT NOT NULL DEFAULT 1,
+    PRIMARY KEY (MaDonHang, MaSanPham),
+    FOREIGN KEY (MaDonHang) REFERENCES `Order`(MaDonHang),
+    FOREIGN KEY (MaSanPham) REFERENCES Product(MaSanPham)
+);
